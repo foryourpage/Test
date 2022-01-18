@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-CN">
+ <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <title>{% block title %}base{% endblock %}</title>
+        <!-- Bootstrap -->
+        <link href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-table.css' %}"rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/imh.css' %}">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap-table.js'%}"></script>
+        <script src="{% static 'js/bootstrap-table-zh-CN.js'%}"></script>
+        <script src="{% static 'js/echarts.min.js'%}"></script>
+ </head>
+
+<body>
+    <div class="wrapper">
+<!--        导航条部分-->
+        <div class="top-nav-wrap">
+            <div class="top-nav">
+                <div>导航条</div>
+                <div>广告图</div>
+            </div>
+        </div>
+<!--        搜索部分-->
+        <div class="search-wrap">
+            <div class="search">
+                <div>搜索部分</div>
+            </div>
+        </div>
+<!--        主体部分-->
+        <div class="main-wrap">
+            <div class="main-nav">
+                <div>主题导航条部分</div>
+            </div>
+
+<!--        主体部分-->
+            <div class="main-box">
+                <div class="main">
+                    <div class="main-inner">
+                        <div class="inner-lf">
+                            <div>主体分类栏</div>
+                        </div>
+                        <div class="inner-cer">
+                            <div>主体轮播图</div>
+                        </div>
+                        <div class="inner-rt">
+                            <div>主体右侧展示</div>
+                        </div>
+                    </div>
+                    <div class="main-bottom">
+                        <div>主体底部信息</div>
+                    </div>
+                </div>
+                <div class="box-rt">
+                    <div class="member">
+                        <div>登录注册部分</div>
+                    </div>
+                    <div class="massage">
+                        <div>信息部分</div>
+                    </div>
+                    <div class="notice">
+                        <div>公告</div>
+                    </div>
+                    <div class="mobule">
+                        <div>图标</div>
+                    </div>
+                    <div class="app">
+                        <div>apps</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

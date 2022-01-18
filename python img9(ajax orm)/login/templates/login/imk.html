@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <title>{% block title %}base{% endblock %}</title>
+        <!-- Bootstrap -->
+        <link href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-table.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/imk.css' %}">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap-table.js'%}"></script>
+        <script src="{% static 'js/bootstrap-table-zh-CN.js'%}"></script>
+        <script src="{% static 'js/echarts.min.js'%}"></script>
+    </head>
+ <body>
+     <div id="container">
+         <div id="head">
+             <div id="top-left" ></div>
+             <div id="top-center">QRQC看板</div>
+             <div id="top-right"></div>
+         </div>
+     </div>
+     <div>
+         <div id="main">
+             <div id="center-main"></div>
+         </div>
+     </div>
+     <div>
+         <div id="bottom" >
+             <div id="table"></div>
+         </div>
+     </div>
+<!--     <script src="{% static 'js/imk.js'%}"></script>-->
+ </body>
+ <script type="text/javascript">
+        var chartDom = document.getElementById('top-left');
+        var myChart = echarts.init(chartDom);
+        var option ;
+
+        var chartDom2 = document.getElementById('top-right');
+        var myChart2 = echarts.init(chartDom2);
+        var option2 ;
+
+        var kv = new Array();
+        kv = {{ data_dict|safe }};
+        var test = new Array();
+        for (var logKey in kv) {
+        test.push({value: kv[logKey], name: logKey});
+        }
+        option = {
+          title: {
+            text: '异常类别占比',
+            left: 'center'
+          },
+          tooltip: {
+            trigger: 'item',
+            position: function(p) { //其中p为当前鼠标的位置
+            return [p[0] + 10, p[1]];
+          },
+<!--            extraCssText: 'width:160px;height:60px;', &lt;!&ndash;这里是控制显示的页面空白部分是多少&ndash;&gt;-->
+            formatter:"{a}<br/>{b}:{c} ({d}%)"
+          },
+          series: [
+            {
+              name: '来源',
+              type: 'pie',
+              radius: '70%',
+              label: {
+                    normal: {
+                        show: false,
+                        position: 'inside',
+                        formatter: '{d}%',
+                        textStyle : {
+                        align : 'center',
+                        baseline : 'middle',
+                        fontFamily : '微软雅黑',
+                        fontSize : 15,
+                        fontWeight : 'bolder'
+                        }
+                    },
+                },
+              data: test,
+            }
+          ]
+        };
+        myChart.setOption(option);
+
+        var kv2 = new Array();
+        kv2 = {{ data_dict2|safe }};
+        var test2 = new Array();
+        for (var logKey in kv2) {
+        test2.push({value: kv2[logKey], name: logKey});
+        }
+        option2 = {
+          title:{
+            text:'责任单位占比',
+            left:'center'
+          },
+          tooltip: {
+            trigger: 'item',
+            formatter:"{a} <br/>{b}: {c} ({d}%)",
+          },
+          series: [
+            {
+              name: 'Access From',
+              type: 'pie',
+              radius: ['40%', '70%'],
+              avoidLabelOverlap: false,
+              label: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '40',
+                  fontWeight: 'bold',
+                  formatter: '{d}%'
+                }
+              },
+              labelLine: {
+                show: false
+              },
+              data: test2,
+            }
+          ]
+        };
+        myChart2.setOption(option2)
+
+        var chartDom3 = document.getElementById('center-main');
+        var myChart3 = echarts.init(chartDom3);
+        var option3 ;
+
+        var dataMap2 = {{data_dict3|safe}};
+        var dataMap = {};
+        dataMap.dataFinancial = dataMap2;
+        var myDate = new Date();
+        myDate = myDate.getFullYear();
+        year_list = [];
+        year_list2 = year_list.toString();
+        var series = [];
+        var title = [];
+        for (var year = 2019;year <= myDate;year++){
+            var str = "";
+            str +=  year + "年异常数量";
+            year_list.push(year);
+            series.push({
+                data:dataMap.dataFinancial[year]
+            });
+            title.push({
+                text: str
+            });
+        }
+        var options = [];
+        for (var i = 0 ; i < year_list.length; i++) {
+            options.push({
+                title : title[i],
+                series: [series[i]]
+            });
+        };
+        console.log(options);
+<!--        function dataFormatter(obj) {-->
+<!--          // prettier-ignore-->
+<!--          var pList = ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'];-->
+<!--          var temp;-->
+<!--          var myDate = new Date();-->
+<!--          myDate = myDate.getFullYear();-->
+<!--          for (var year = 2019; year <= myDate; year++) {-->
+<!--            var max = 0;-->
+<!--            var sum = 0;-->
+<!--            temp = obj[year];-->
+<!--            for (var i = 0, l = temp.length; i < l; i++) {-->
+<!--              max = Math.max(max, temp[i]);-->
+<!--              sum += temp[i];-->
+<!--              obj[year][i] = {-->
+<!--                name: pList[i],-->
+<!--                value: temp[i]-->
+<!--              };-->
+<!--            }-->
+<!--            obj[year + 'max'] = Math.floor(max / 100) * 100;-->
+<!--            obj[year + 'sum'] = sum;-->
+<!--          }-->
+<!--          return obj;-->
+<!--        }-->
+        // prettier-ignore
+
+        option3 = {
+          baseOption: {
+            timeline: {
+              axisType: 'category',
+              // realtime: false,
+              // loop: false,
+              autoPlay: true,
+              // currentIndex: 2,
+             playInterval: 2000,<!-- 表示播放的速度-->
+              // controlStyle: {
+              //     position: 'left'
+              // },
+              data: year_list,
+              label: {
+                formatter: function (s) {
+                  return new Date(s).getFullYear();
+                }
+              }
+            },
+            title: {
+              subtext: '数据来自异常单'
+            },
+            tooltip: {},
+            legend: {
+              left: 'right',
+              data: [ '异常单数量'],
+              selected: {
+                异常单数量: true,
+              }
+            },
+            calculable: true,
+            grid: {
+              top: 80,
+              bottom: 100,
+              tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'shadow',
+                  label: {
+                    show: true,
+                    formatter: function (params) {
+                      return params.value.replace('\n', '');
+                    }
+                  }
+                }
+              }
+            },
+            xAxis: [
+              {
+                type: 'category',
+                axisLabel: { interval: 0 },
+                data: [
+                  '一月',
+                  '二月',
+                  '三月',
+                  '四月',
+                  '五月',
+                  '六月',
+                  '七月',
+                  '八月',
+                  '九月',
+                  '十月',
+                  '十一月',
+                  '十二月',
+                ],
+                splitLine: { show: false }
+              }
+            ],
+            yAxis: [
+              {
+                type: 'value',
+                name: '数量'
+              }
+            ],
+           series: [     <!-- 这里是设置选择-->
+              { name: '异常单数量', type: 'bar' },
+            ]
+          },
+          options: options
+        };
+
+
+        myChart3.setOption(option3);
+
+
+        var chartDom4 = document.getElementById('table')
+        var myChart4 = echarts.init(chartDom4)
+        var option4;
+        var kv4 = {{data_dict4|safe}};
+        console.log(kv4);
+
+        var emphasisStyle = {           <!--这个单词的意思是强调样式-->
+          itemStyle: {
+            shadowBlur: 10,
+            shadowColor: 'rgb(0,0,0,0.3)'
+          }
+        };
+
+        option4 = {
+          title: {
+             text:'各責任單位已結未結件數看板',
+             left:'center',
+           },
+          legend: {  <!--这里是图例组件,我们控制哪一些显示，哪一些不显示-->
+            data: ['结案', '未结案'],
+            left: '10%'
+          },
+          brush: {       <!--这里是区域选择组件，我们选择自己想要的数据-->
+            toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],         <!--这里实现的是工具箱-->
+            xAxisIndex: 0
+          },
+          toolbox: {          <!--这一块是工具栏，内置有导出图片，数据视图，动态类型切换，数据区域缩放，重置五个工具。-->
+            feature: {         <!--工具配置项-->
+              magicType: {          <!--动态类型切换-->
+                type: ['stack']                    <!--实现切换图形为堆叠图-->
+              },
+             dataView: {}          <!-- 数据视图工具，可以展现当前图表所用的数据-->
+            }
+          },
+          tooltip: {},         <!--提示框组件-->
+          xAxis: {
+            data: kv4.name_list3,
+            name: '部门',       <!--坐标轴名称-->
+            show:true,              <!--是否显示x轴-->
+            axisLine: { onZero: true },  <!--X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效-->
+            splitLine: { show: true },   <!--显示分割线-->
+            splitArea: { show: true },    <!--显示分割区域-->
+            axisLabel: {             <!--坐标轴刻度标签的相关设置-->
+               interval:0,            <!--设置成0表示显示所有标签，1的话表示隔一个标签显示-->
+               rotate: 35           <!-- 刻度标签旋转的角度，使标签不重叠-->
+            }
+          },
+          yAxis: {},
+          grid: {            <!--坐标内绘制网格-->
+           bottom: 100       <!-- grid 组件离容器下侧的距离-->
+          },
+          series: [
+            {
+              name: '结案',
+              type: 'bar',       <!--柱状图-->
+              stack: 'one',
+              emphasis: emphasisStyle,
+              data: kv4.number3
+            },
+            {
+              name: '未结案',
+              type: 'bar',
+              stack: 'two',
+              emphasis: emphasisStyle,
+              data: kv4.number4
+            }
+          ],
+           dataZoom:{
+              realtime:true, //拖动滚动条时是否动态的更新图表数据
+              height:25,//滚动条高度
+              start:0,//滚动条开始位置（共100等份）
+              end:100//结束位置（共100等份）
+           }
+        };
+
+        myChart4.setOption({
+
+        });
+
+    myChart4.setOption(option4);
+
+
+
+
+ </script>
+
+
+</html>

@@ -1,0 +1,98 @@
+{#login/templates/login/index.html#}
+
+{% extends 'login/base.html' %}
+{% load static %}
+{% block title %}bootstrap表格{% endblock %}
+{% block css %}
+   <link rel="stylesheet" href="{% static 'css/index4.css' %}">
+{% endblock %}
+
+{% block content %}
+   {% if request.session.is_login %}
+     <body>
+        <div class="menu-list">
+            <ul>
+                <li class="first-menu">
+                    <a href="javascript:;">首页</a>
+                </li>
+                <li class="first-menu">
+                    <a href="javascript:;">菜单1</a>
+                    <ul>
+                        <li class="second-menu">
+                            <a href={% url 'book'  %}>jump</a>
+                        </li>
+                        <li class="second-menu">
+                            <a href="javascript:;">子菜单1-2</a>
+                        </li>
+                        <li class="second-menu">
+                            <a href="javascript:;">子菜单1-3</a>
+                        </li>
+                        <li class="second-menu">
+                            <a href="javascript:;">子菜单1-4</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="first-menu">
+                    <a href="javascript:;">菜单2</a>
+                    <ul>
+                        <li class="second-menu">
+                            <a href="javascript:;">子菜单2-1</a>
+                        </li>
+                        <li class="second-menu">
+                            <a href="javascript:;">子菜单2-2</a>
+                        </li>
+                        <li class="second-menu">
+                            <a href="javascript:;">子菜单2-3</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="first-menu">
+                    <a href="javascript:;">菜单3</a>
+                    <ul>
+                        <li class="second-menu">
+                            <a href="javascript:;">子菜单3-1</a>
+                        </li>
+                        <li class="second-menu">
+                            <a href="javascript:;">子菜单3-2</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+     </body>
+   <script>
+        $(".menu-list .first-menu").click(function(){
+            $(this).addClass("active").siblings().removeClass("active");
+        <!--    给当前元素添加'class'类并查找同胞元素再去除同胞元素的'class'类-->
+            $(this).find("ul").slideToggle(500);
+        <!--      使用滑动效果切换元素，如果元素可见则隐藏，不可见则展开-->
+            $(this).siblings().find("ul").hide();
+         <!--   这里应该是遍历发现有ul元素，则进行隐藏   -->
+
+        })
+         $(".menu-list .second-menu").click(function(){
+            var $this = $(this);
+         <!--   把后面的this(html 中dom)对象转化为jquery对象-->
+            $(".second-menu").each(function () {
+                if($(this).hasClass("current")){
+                    $(this).removeClass("current");
+                 <!--这里是检查有没有对应的class类，有则去除-->
+                }
+            })
+            $this.addClass("current").siblings().removeClass("current");
+        })
+         $(".menu-list .first-menu ul").bind("click",function(event){
+            event.stopPropagation();
+         <!--     阻止click事件冒泡到父元素-->
+        });
+   </script>
+
+    {% else %}
+    <h1>你尚未登录，只能访问公开内容！</h1>
+    {% endif %}
+{% endblock %}
+
+
+
+

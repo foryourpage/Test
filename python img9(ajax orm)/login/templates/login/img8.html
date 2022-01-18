@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-CN">
+ <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <title>{% block title %}base{% endblock %}</title>
+        <!-- Bootstrap -->
+        <link href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-table.css' %}"rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/img1.css' %}">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap-table.js'%}"></script>
+        <script src="{% static 'js/bootstrap-table-zh-CN.js'%}"></script>
+        <script src="{% static 'js/echarts.min.js'%}"></script>
+ </head>
+<body>
+    <label>
+        <span>开始日期</span>
+        <input type="datetime-local" class="startTime" placeholder="开始日期">
+    </label>
+    <label>
+        <span>结束日期</span>
+        <input type="datetime-local" class="endTime" placeholder="结束日期">
+    </label>
+
+    <div>
+        <div>
+            <button id="submit-button" type="submit">查询</button>
+        </div>
+    </div>
+    <div id="main" style="width:1000px; height:450px"></div>
+</body>
+
+    <script>
+    var chartDom = document.getElementById('main')
+    var myChart = echarts.init(chartDom)
+    var option;
+    let data1 = [1,2,3,4,5,6];
+    let data3 = [1,2,3,4,5,6];
+
+    var emphasisStyle = {           <!--这个单词的意思是强调样式-->
+      itemStyle: {
+        shadowBlur: 10,
+        shadowColor: 'rgb(0,0,0,0.3)'
+      }
+    };
+    option = {
+      title: {
+             text:'责任单位对比图',
+             left:'center',
+      },
+      legend: {  <!--这里是图例组件,我们控制哪一些显示，哪一些不显示-->
+        data: ['结案', '未结案'],
+        left: '10%'
+      },
+      brush: {       <!--这里是区域选择组件，我们选择自己想要的数据-->
+        toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],         <!--这里实现的是工具箱-->
+        xAxisIndex: 0
+      },
+      toolbox: {          <!--这一块是工具栏，内置有导出图片，数据视图，动态类型切换，数据区域缩放，重置五个工具。-->
+        feature: {         <!--工具配置项-->
+          magicType: {          <!--动态类型切换-->
+            type: ['stack']                    <!--实现切换图形为堆叠图-->
+          },
+         dataView: {}          <!-- 数据视图工具，可以展现当前图表所用的数据-->
+        }
+      },
+      tooltip: {},         <!--提示框组件-->
+      xAxis: {
+        data: [],
+        name: '部门',       <!--坐标轴名称-->
+        show:true,              <!--是否显示x轴-->
+        axisLine: { onZero: true },  <!--X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效-->
+        splitLine: { show: true },   <!--显示分割线-->
+        splitArea: { show: true },    <!--显示分割区域-->
+        axisLabel: {             <!--坐标轴刻度标签的相关设置-->
+           interval:0,            <!--设置成0表示显示所有标签，1的话表示隔一个标签显示-->
+           rotate: 35           <!-- 刻度标签旋转的角度，使标签不重叠-->
+        }
+      },
+      yAxis: {},
+      grid: {            <!--坐标内绘制网格-->
+       bottom: 100       <!-- grid 组件离容器下侧的距离-->
+      },
+      series: [
+        {
+          name: '结案',
+          type: 'bar',       <!--柱状图-->
+          stack: 'one',
+          emphasis: emphasisStyle,
+          data: []
+        },
+        {
+          name: '未结案',
+          type: 'bar',
+          stack: 'two',
+          emphasis: emphasisStyle,
+          data: []
+        }
+      ],
+       dataZoom:{
+          realtime:true, //拖动滚动条时是否动态的更新图表数据
+          height:25,//滚动条高度
+          start:0,//滚动条开始位置（共100等份）
+          end:100//结束位置（共100等份）
+       }
+    };
+
+<!--      myChart.on('brushSelected', function (params) {            &lt;!&ndash;该方法的选择是为了能在右下角区域显示出数组的数据&ndash;&gt;-->
+<!--          var brushed = [];-->
+<!--          var brushComponent = params.batch[0];-->
+<!--          for (var sIdx = 0; sIdx < brushComponent.selected.length; sIdx++) {-->
+<!--            var rawIndices = brushComponent.selected[sIdx].dataIndex;-->
+<!--            brushed.push('[Series ' + sIdx + '] ' + rawIndices.join(', '));-->
+<!--          }-->
+<!--          myChart.setOption({-->
+<!--            title: {-->
+<!--              backgroundColor: '#333',-->
+<!--              text: 'SELECTED DATA INDICES: \n' + brushed.join('\n'),-->
+<!--              bottom: 0,-->
+<!--              right: '10%',-->
+<!--              width: 100,-->
+<!--              textStyle: {-->
+<!--                fontSize: 12,-->
+<!--                color: '#fff'-->
+<!--              }-->
+<!--            }-->
+<!--          });-->
+<!--        });-->
+
+
+
+
+
+<!--    myChart.setOption(option);-->
+
+
+    $('#submit-button').click(function () {
+        $.ajax({
+            type:"post",
+            async:true,
+            url:"/img8/",
+            data:{
+              'startTime':  new Date($('.startTime').val()).getTime(),
+              'endTime': new Date($('.endTime').val()).getTime(),
+            },
+            success: function(data){
+              if(data){
+                  option.xAxis.data = data.name_list2;
+                  option.series[0].data = data.number;
+                  option.series[1].data = data.number2;
+                  myChart.setOption(option);
+              }
+            }
+        });
+    });
+
+    </script>
+</html>

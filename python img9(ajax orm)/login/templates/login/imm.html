@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <title>{% block title %}base{% endblock %}</title>
+        <!-- Bootstrap -->
+        <link href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-table.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/imm.css' %}">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap-table.js'%}"></script>
+        <script src="{% static 'js/bootstrap-table-zh-CN.js'%}"></script>
+        <script src="{% static 'js/echarts.min.js'%}"></script>
+        <script src="{% static 'js/imm.js'%}"></script>
+    </head>
+<body>
+    <div class="box">
+        <div class="box-header">
+            <div class="col">测试一</div>
+            <div class="col">测试二</div>
+            <div class="col">测试三</div>
+            <div class="col">测试四</div>
+        </div>
+        <div id="font-scroll">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col">测试文字1</div>
+                    <div class="col">测试文字1</div>
+                    <div class="col">测试文字1</div>
+                    <div class="col">测试文字1</div>
+                </div>
+                <div class="row">
+                    <div class="col">测试文字2</div>
+                    <div class="col">测试文字2</div>
+                    <div class="col">测试文字2</div>
+                    <div class="col">测试文字2</div>
+                </div>
+                <div class="row">
+                    <div class="col">测试文字3</div>
+                    <div class="col">测试文字3</div>
+                    <div class="col">测试文字3</div>
+                    <div class="col">测试文字3</div>
+                </div>
+                <div class="row">
+                    <div class="col">测试文字4</div>
+                    <div class="col">测试文字4</div>
+                    <div class="col">测试文字4</div>
+                    <div class="col">测试文字4</div>
+                </div>
+                <div class="row">
+                    <div class="col">测试文字5</div>
+                    <div class="col">测试文字5</div>
+                    <div class="col">测试文字5</div>
+                    <div class="col">测试文字5</div>
+                </div>
+                <div class="row">
+                    <div class="col">测试文字6</div>
+                    <div class="col">测试文字6</div>
+                    <div class="col">测试文字6</div>
+                    <div class="col">测试文字6</div>
+                </div>
+                <div class="row">
+                    <div class="col">测试文字7</div>
+                    <div class="col">测试文字7</div>
+                    <div class="col">测试文字7</div>
+                    <div class="col">测试文字7</div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#font-scroll').FontScroll({ time: 1000 });
+    </script>
+
+</body>
+</html>

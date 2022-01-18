@@ -1,0 +1,303 @@
+body {
+    /* 将body默认的padding和margin清零，有助于页面无白边，实现全屏阅读 */
+    padding: 0;
+    margin: 0;
+    /* 这是字体大小及字体风格 */
+    font: 12px/1.5 Helvetica Neue,Helvetica,Arial,Hiragino Sans GB,\5FAE\8F6F\96C5\9ED1,tahoma,simsun,\5b8b\4f53;
+    font-weight: 500;
+}
+
+a {
+    /* 这是一个设置超链接的下划线为空的办法，text-decoration让文本修饰为none，就可以将下划线去掉 */
+    text-decoration: none;
+}
+
+/* ---------------顶部导航栏部分---------------------*/
+/* 设置外层包裹标签，方便实现导航条居中 */
+#topNav {
+    display: block;
+    margin: 0 auto;
+}
+
+
+/* 设置导航栏父级的效果 */
+ul.Nav {
+    /* 设置导航栏类名为Nav的ul列表的定位为相对定位 */
+    position: relative;
+    /* 根据官方网页参考可得，大致的导航栏高度为31px */
+    height: 31px;
+    /* 设置为100%，让导航栏的ul列表适应屏幕宽度 */
+    width: 100%;
+    /* 距离顶部为0像素，使导航栏相对浏览器可视页面置顶，紧贴浏览器可视页面顶部 */
+    margin-top: 0px;
+    /* 前端的规范中，ul默认相对左边有40像素的距离，margin-left属性设置为-40像素表示相对于左边向左方向移动40像素的距离，来解决不对齐的问题 */
+    margin-left: -40px;
+    /* 根据官网的导航栏背景颜色可知，背景颜色为黑色 */
+    background-color: black;
+    /* 设置字体颜色为灰度，16进制表示为999999，这里缩写为999 */
+    color: #999;
+}
+
+/* 对导航栏子级进行设置 */
+ul.Nav li {
+    /* 将li标签的显示设置为行级块模式，这样会让li标签从垂直排列变为水平排列 */
+    display: inline-block;
+    position: relative;
+    /* 行高设置为和父级一样的行高，用于撑开li的高度 */
+    line-height: 31px;
+    /* 根据官网的导航栏效果可知，li内的字体相对于border边框有一定的距离，所以我们设置内填充，上下因为有行高了，这里就设置左右内填充12像素 */
+    padding: 0 12px 0;
+    cursor: pointer;
+}
+
+
+/* 当鼠标移动到导航栏的li标签上时会发生字体变白色的效果 */
+ul.Nav li:hover {
+    color: #fff;
+}
+
+
+/* 这里采用nth-child()选择器来设置每个选项之间的间距 */
+/* 主要设置第一个选项和第四个选项 ，这样一左一右的设置可以使第一到第4选项分离成左侧的导航栏*/
+ul.Nav li:nth-child(1) {
+    margin-left: 200px;
+}
+
+ul.Nav li:nth-child(4) {
+    margin-right: 140px;
+}
+
+/* 这个地方是将i标签用css画成三角形，做倒三角字符 */
+ul.Nav li i {
+    position: relative;
+    top: 10px;
+    margin-left: 4px;
+    width: 0;
+    height: 0;
+    border: 4px solid #999;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    /* 加入动画过渡属性 */
+    transition: all 0.2s ease;
+}
+
+/* 当鼠标经过导航栏的li标签选项时，i标签发生的变化，原本是要做旋转的动画，为了更具有创意，我做的这个是下坠的动画效果 */
+ul.Nav li:hover i {
+    top: 16px;
+}
+
+/* 对个人中心，客服服务，支付中心，消费者权益，更多  这5个二级下拉菜单进行设置 */
+.personalCenter,
+.customerService,
+.payCenter,
+.consumesInterests,
+.more {
+    display: none;
+    position: absolute;
+    margin-left: -12px;
+    width: 100px;
+    background-color: rgb(253, 253, 253);
+    box-shadow: 1px 1px 15px rgb(228, 228, 228);
+    padding: 0 10px 0 10px;
+}
+
+.customerService {
+    width: 90px;
+}
+
+.payCenter {
+    width: 64px;
+}
+
+.consumesInterests {
+    width: 76px;
+}
+
+.more {
+    width: 74px;
+    left: -18px;
+    padding: 0 8px 0 8px;
+}
+
+/* 对个人中心，客服服务，支付中心，更多  这4个二级下拉菜单的菜单选项进行设置，这里我们用a标签作为单个菜单选项的包裹标签 */
+.personalCenter a,
+.customerService a,
+.payCenter a,
+.more a {
+    display: block;
+    width: 100%;
+    color: inherit;
+}
+
+/* 给二级下拉菜单里面的指定选项设置下划线 */
+.more a:nth-child(1) {
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.personalCenter a:nth-child(3) {
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.personalCenter a:nth-child(6) {
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+.personalCenter a:nth-child(8) {
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+
+/* 类名.Nav中的第7到第11的li元素是拥有下拉二级菜单栏，鼠标经过li标签的时候，背景变为白色,字体颜色变黑色*/
+ul.Nav li:nth-child(7):hover,
+ul.Nav li:nth-child(8):hover,
+ul.Nav li:nth-child(9):hover,
+ul.Nav li:nth-child(10):hover,
+ul.Nav li:nth-child(11):hover {
+    color: rgb(0, 0, 0);
+    background-color: rgb(253, 253, 253);
+}
+
+/* 类名.Nav中的第7到第11的li元素是拥有下拉二级菜单栏，鼠标经过a标签的时候，字体颜色变红色 */
+ul.Nav li:nth-child(7) a:hover,
+ul.Nav li:nth-child(8) a:hover,
+ul.Nav li:nth-child(9) a:hover,
+ul.Nav li:nth-child(10) a:hover,
+ul.Nav li:nth-child(11) a:hover {
+    color: rgb(240, 15, 15);
+}
+
+/* 类名.Nav中的第7到第11的li元素是拥有下拉二级菜单栏，鼠标经过时显示相应的二级下拉菜单栏 */
+ul.Nav li:nth-child(7):hover .personalCenter,
+ul.Nav li:nth-child(8):hover .customerService,
+ul.Nav li:nth-child(9):hover .payCenter,
+ul.Nav li:nth-child(10):hover .consumesInterests,
+ul.Nav li:nth-child(11):hover .more {
+    display: block;
+    color: rgb(0, 0, 0);
+}
+
+.searchBar{
+    width: 1090px;
+    height: 100px;
+    margin: 0 auto;
+    margin-top:-12px;
+}
+
+.searchBar a {
+    display:block;
+}
+
+.searchBar a img {
+    float:left;
+    width:210px;
+    height:68px;
+    cursor: pointer;
+    margin-top:20px;
+    z-index: 9;
+
+}
+
+.searchText {
+    float:right;
+    width:510px;
+    height:36px;
+    padding-left:1px;
+    margin-top: 28px;
+    margin-right:62px;
+    background-color: #ffffff;
+    border: 2px solid #ff2327;
+    border-radius:30px;
+}
+
+.searchText input[type="text"]{
+    display:block;
+    width；80px;
+    margin-top:9px;
+    margin-left: 36px;
+    border: 0px;
+}
+
+.searchText input[type="text"]::placeholder{
+    font-style:italic;
+}
+
+.searchText input[type="text"]:focus {
+    outline: none;
+}
+
+.shopCar {
+    display:block;
+    float:right;
+    width:106px;
+    height:36px;
+    margin-top:28px;
+    margin-right:75px;
+    line-height:36px;
+    border: 2px solid #ff1e32;
+    border-radius: 36px;
+    font-size:0.8rem;
+    font-weight: 500px;
+    text-align:center;
+}
+
+.shopCar:hover {
+    color:#ff1e32;
+    background-color: #fff4f5;
+}
+
+.shopIcon {
+    display:line-block;
+    width:20px;
+    height:20px;
+    margin-right:2px;
+    margin-bottom: -5px;
+
+}
+
+.searchText img {
+    transform:scale(0.5);
+    border:1px solid;
+    margin-top: -4px;
+    background: rgb(214,214,214);
+}
+
+.searchText zoomIcon {
+    position:absolute;
+    width:14px;
+    height:14px;
+    margin-left:10px;
+    margin-top:11px;
+    background-position: -466px -667px;
+    border:1px;
+}
+
+.searchButton {
+    display:block;
+    float:right;
+    width:56px;
+    height:38px;
+    margin-right:-4px;
+    margin-top: -28px;
+    background-color: #ff2327;
+    border-radius: 30px;
+    cursor:pointer;
+}
+
+.searchButton i {
+    display: block;
+    width: 56px;
+    height: 38px;
+    margin-right: -4px;
+    margin-top: 0px;
+    background-image: url('./放大镜大.png');
+    background-repeat: no-repeat;
+    background-position: 50%;
+    border-radius: 30px;
+}
+
+/* 当鼠标移动到搜索按钮上时会发生的变化 */
+.searchButton:hover {
+    background: linear-gradient(270deg, #f85a7d, #ff3234);
+}
+
+

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <title>{% block title %}base{% endblock %}</title>
+        <!-- Bootstrap -->
+        <link href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-table.css' %}" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/imk.css' %}">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap-table.js'%}"></script>
+        <script src="{% static 'js/bootstrap-table-zh-CN.js'%}"></script>
+        <script src="{% static 'js/echarts.min.js'%}"></script>
+        <style>
+            .main {
+                width:100%;
+                height:40px;
+                background:#999;
+                display:flex;
+                color:#fff;
+                line-height:40px;
+                text-align: center;
+            }
+            .main .box1 ,
+            .main .box3{
+                width:100px;
+                height: 40px;
+                background:pink;
+            }
+            .main .box2 {
+                flex:1;
+                height:100%;
+                color:blue;
+            }
+
+            .box {
+                width: 400px;
+                height: 400px;
+                background: #666;
+                /* 父级设置flex */
+                display: flex;
+                /* 设置主轴上的子元素排列方式：居中 */
+                justify-content: center;
+                /* 设置侧轴上的子元素排列方式：居中（单行） */
+                align-items: center;
+                border-radius: 10px;
+            }
+
+            .childrenBox {
+                width:100px;
+                height:100px;
+                background:#999;
+            }
+
+            .box_two {
+                width:500px;
+                height:400px;
+                padding:0;
+                background:#ccc;
+                display:flex;
+                list-style:none;
+                 /*  换行显示 */
+                 flex-wrap: wrap;
+                /*  设置主轴 间距平均分配 */
+                justify-content: space-around;
+                /*  设置主轴 间距平均分配 */
+                align-content: space-around;
+            }
+
+            .box_two li {
+                width:150px;
+                height:150px;
+                background:pink;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main">
+            <div class="box1">左侧</div>
+            <div class="box2">中间</div>
+            <div class="box3">右侧</div>
+        </div>
+
+        <div class="box">
+            <div class="childrenBox">
+
+            </div>
+        </div>
+
+        <div class="box_two">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </div>
+    </body>
+
+</html>

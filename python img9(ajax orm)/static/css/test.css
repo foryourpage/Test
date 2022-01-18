@@ -1,0 +1,51 @@
+[class^="icon-"], /*模糊匹配开头为icon的*/
+[class^=" icon-"]{  /*模糊匹配中间为icon的*/
+    font-family: hjx;
+    font-style: normal;
+    font-size: 15px;
+}
+.icon-sel::before{
+    content:'\e986'
+
+}
+.icon-del::before{
+    content: '\ea0f';
+    font-size: 15px;
+}
+
+#my_body .show_table{
+    margin-left: 0.5%;
+    margin-bottom:1px;
+    width: 99%;
+    border: 1px solid #e0e0e0;
+
+}
+#my_body .show_table tr:first-child th:first-child {
+    border-top-left-radius: 2px;
+        }
+#my_body .show_table th{
+    text-align: center;
+    color: #49656C;
+}
+.show_foot{
+    height: 55px;
+}
+.show_foot p{
+    font-size: 15px;
+    line-height: 30px;
+    margin:0 5px;
+}
+.show_foot ul{
+    margin: 0;
+}
+.modal-body input {
+  margin:20px
+
+}
+.modal-body textarea {
+  margin:20px
+
+}
+
+
+

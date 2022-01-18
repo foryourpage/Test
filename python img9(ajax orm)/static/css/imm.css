@@ -1,0 +1,46 @@
+.box {
+    width:500px;
+    text-align:center;
+    font-size: 14px;
+    border: 1px solid rgba(0, 0, 0, .3);
+}
+
+.box .box-header{
+    display:flex;
+    justify-content: space-evenly;
+}
+
+.box-body .row {
+      display: flex;
+      justify-content: space-evenly;
+}
+
+.box-header,.box-body .row {
+     border-bottom: 1px dashed #404040;
+}
+
+ .box .col {
+      padding: 10px 0 10px 0;
+    }
+
+    .box .col:nth-child(1) {
+      width: 80px;
+    }
+
+    .box .col:nth-child(2) {
+      width: 70px;
+    }
+
+    .box .col:nth-child(3) {
+      width: 80px;
+    }
+
+    .box .col:nth-child(4) {
+      width: 70px;
+    }
+
+#font-scroll {
+      /* 内容滚动可视高度 */
+      height: 199px;
+      overflow: hidden;
+}

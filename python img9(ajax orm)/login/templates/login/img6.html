@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-CN">
+ <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <title>{% block title %}base{% endblock %}</title>
+        <!-- Bootstrap -->
+        <link href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-table.css' %}"rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/img1.css' %}">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap-table.js'%}"></script>
+        <script src="{% static 'js/bootstrap-table-zh-CN.js'%}"></script>
+        <script src="{% static 'js/echarts.min.js'%}"></script>
+ </head>
+    <body>
+<!--         <div>-->
+<!--           <select id="data_year" class="required combox" name="al.activeType">-->
+<!--                <option value="">&#45;&#45;请选择&#45;&#45;</option>-->
+<!--                <option value="2022">2022年</option>-->
+<!--                <option value="2021">2021年</option>-->
+<!--                <option value="2020">2020年</option>-->
+<!--                <option value="2019">2019年</option>-->
+<!--                <option value="2000">2000年</option>-->
+<!--            </select>-->
+<!--         </div>-->
+         <div>
+             <select id=data_year></select>
+                <input type=button value="填充年份" onclick="fillSelect()">
+         </div>
+         <div>
+            <div>
+                <button id="submit-button" type="submit" class="btn btn-default">查询</button>
+            </div>
+         </div>
+        <div id="main"  style="width:1000px;height:400px"></div>
+    </body>
+     <script>
+            var myDate= new Date();
+            var startYear=1999;//起始年份
+            var endYear=myDate.getFullYear()+1;//结束年份
+            function fillSelect(){
+                var obj=document.getElementById("data_year");
+                for(var i=startYear;i<endYear;i++){
+                var op=new Option(i,i);
+                obj.add(op);
+                }
+            }
+
+             var chartDom = document.getElementById('main');
+             var myChart = echarts.init(chartDom);
+             var option;
+             option = {
+                tooltip: {       <!--这个属性是鼠标悬浮展示-->
+				trigger:'axis',
+				formatter: '{b0}({a0}): {c0}<br/>{b1}({a1}): {c1}%'
+			},
+            legend: {
+                data:['异常单数量','结案占比']
+            },
+            xAxis: {
+                data: ["一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"]
+            },
+            yAxis: [{
+                type: 'value',
+                name: '异常单数量',
+                show:true,
+                min: 0,
+<!--                max: (value) => {-->
+<!--                        return value.max  * 1.5;-->
+<!--                      },-->
+                max:50,
+                interval: 10,
+                axisLine: {
+                    lineStyle: {
+                        color: '#5e859e',
+                        width: 2
+                    }
+                }
+            },{
+                type: 'value',
+                name: '结案占比',
+                min: 0,
+                max: 100,
+                interval: 10,
+                axisLabel: {
+                    formatter: '{value} %'
+                },
+                axisLine: {
+                    lineStyle: {
+                        color: '#5e859e',//纵坐标轴和字体颜色
+                        width: 2
+                    }
+                }
+            }],
+            series: [{
+                name: '异常单数量',
+                type: 'bar',
+				barWidth : '50%',
+                data: [],
+                yAxisIndex: 0,
+            },{
+                name: '结案占比',
+                type: 'line',
+				smooth:true,
+                data: [],
+                yAxisIndex: 1,
+            }]
+            };
+
+            $("#submit-button").click(function () {
+                $.ajax({
+                  type : "post",
+                  async: true,
+                  url : "/percentage/",
+                  data : {data_year :$("#data_year").val()},
+                  dataType : "json",
+                  success : function(data) {
+                      if (data) {
+                            option.series[0].data = data.number1;
+                            option.series[1].data = data.number;
+                            myChart.setOption(option);
+                      }
+                  },
+                  error : function(errorMsg){
+                  alert("图表请求失败！");
+                  myChart.hideLoading();
+                   }
+                });
+            });
+
+
+    </script>
+</html>

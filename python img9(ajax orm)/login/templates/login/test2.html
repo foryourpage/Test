@@ -1,0 +1,63 @@
+{#login/templates/login/index.html#}
+{% extends 'login/base.html' %}
+{% load static%}
+{% block title %}bootstrap表格{% endblock %}
+{% block css%}
+     <link rel="stylesheet" href="{% static  'css/test2.css'%}">
+{% endblock%}
+{% block content %}
+   {% if request.session.is_login %}
+
+    <body>
+     <div id="my_body" class="panel-body">
+
+         <div class="panel-body">
+              <form class="form-inline">
+                  <div class="form-group">
+                      <input type="text" class="form-control" id="gongdan" placeholder="请输入工单">
+                  </div>
+                  <div class="form-group">
+                      <input type="text" class="form-control" id="partno" placeholder="请输入料号">
+                  </div>
+                  <button type="submit" class="btn btn-success"><i class="icon-sel"> </i>查询</button>
+                  <button type="reset" class="btn btn-danger"><i class="icon-del"></i>清除</button>
+              </form><br>
+              <form>
+                  <div >
+                      <textarea class="form-group" rows="3" id="event"></textarea>
+                  </div>
+
+              </form>
+         </div>
+         <table class="table table-striped table-bordered text-center show_table" >
+             <tr >
+                 <th>ID</th>
+                 <th>工单</th>
+                 <th>料号</th>
+                 <th>事件</th>
+                 <th>发生日期</th>
+                 <th>责任单位</th>
+                 <th>追踪人</th>
+             </tr>
+             <tr>
+                 <th>1</th>
+                 <th>2</th>
+                 <th>3</th>
+                 <th>4</th>
+                 <th>5</th>
+                 <th>6</th>
+                 <th>7</th>
+             </tr>
+         </table>
+
+     </div>
+    </body>
+
+    {% else %}
+    <h1>你尚未登录，只能访问公开内容！</h1>
+    {% endif %}
+{% endblock %}
+
+
+
+

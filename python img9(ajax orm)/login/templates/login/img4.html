@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+        <title>{% block title %}base{% endblock %}</title>
+        <!-- Bootstrap -->
+        <link href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/bootstrap-table.css' %}"rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'css/img1.css' %}">
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/bootstrap-table.js'%}"></script>
+        <script src="{% static 'js/bootstrap-table-zh-CN.js'%}"></script>
+        <script src="{% static 'js/echarts.min.js'%}"></script>
+    </head>
+    <body>
+         <div >
+           <select id="data_year" class="required combox" name="al.activeType">
+                <option value="">--请选择--</option>
+                <option value="2021">2021</option>
+                <option value="2020">2020</option>
+                <option value="2019">2019</option>
+                <option value="2018">2018</option>
+                <option value="2000">2000</option>
+            </select>
+         </div>
+         <div >
+            <div >
+                <button id="submit-button" type="submit" class="btn btn-default">查询</button>
+            </div>
+        </div>
+         <div id="main" style="width: 1000px;height:400px;"></div>
+
+    </body>
+    <script type="text/javascript">
+             var select = document.getElementById("data_year");
+             var options = select.options;
+             var chartDom = document.getElementById('main');
+             var myChart = echarts.init(chartDom);
+             var option;
+             option = {
+                  tooltip: {
+                    trigger: 'axis',
+                    axisPointer: {
+                      type: 'shadow'
+                    },
+                  },
+                  grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                  },
+                  xAxis: [
+                    {
+                      type: 'category',
+                      data: ['一月', '二月', '三月', '四月', '五月', '六月', '七月','八月','九月','十月','十一月','十二月'],
+                      axisTick: {
+                        alignWithLabel: true
+                      }
+                    }
+                  ],
+                  yAxis: [
+                    {
+                      type: 'value'
+                    }
+                  ],
+                  series: [
+                    {
+                      name: '异常单数',
+                      type: 'bar',
+                      barWidth: '60%',
+                      data: []
+                    }
+                  ]
+            };
+            myChart.setOption(option);
+            myChart.showLoading();
+            $("#submit-button").click(function () {
+                $.ajax({
+                  type : "post",
+                  async: true,
+                  url : "/statistics/",
+                  data : {data_year :$("#data_year").val()},
+                  dataType : "json",
+                  success : function(data) {
+                      if (data) {
+                            myChart.hideLoading();
+                            option.series[0].data = data.number;
+                            myChart.setOption(option);
+                      }
+                  },
+                   error : function(errorMsg){
+                   alert("图表请求失败！");
+                   myChart.hideLoading();
+                   }
+                });
+            });
+
+         </script>
+
+</html>

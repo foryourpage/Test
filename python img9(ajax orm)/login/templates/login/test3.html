@@ -1,0 +1,136 @@
+{#login/templates/login/index.html#}
+{% extends 'login/base.html' %}
+{% load static%}
+{% block title %}主页面{% endblock %}
+{% block css%}
+     <link rel="stylesheet" href="{% static  'css/test3.css'%}">
+{% endblock%}
+{% block content %}
+   {% if request.session.is_login %}
+    <div class="pageContainer">
+        <div class="pageSidebar">
+            <ul class="nav nav-stacked nav-pills">
+                <!-- 这里的pills表示的是胶囊型 stacked表示堆-->
+                <li role="presentation">
+                    <a href="javascript:;" target="mainFrame">模块</a>
+                </li>
+                <li>
+                    <a href="javascript:;" target="mainFrame">模块1</a>
+                </li>
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:;"target="mianFrame">
+                        QRQC看板
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/imk/" target="mainFrame">看板页面</a>
+                        </li>
+                        <li>
+                            <a href="/img2/" target="mainFrame">异常看板</a>
+                        </li>
+<!--                        <li>-->
+<!--                            <a href="/img1/" target="mainFrame">责任单位</a>-->
+<!--                        </li>-->
+                        <li>
+                            <a href="/img5/" target="mainFrame">异常类别占比</a>
+                        </li>
+                        <li>
+                            <a href="/img7/" target="mainFrame">责任单位比重</a>
+                        </li>
+<!--                        <li>-->
+<!--                            <a href="/imj/" target="mainFrame">未结案责任单位比重</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="/img4/" target="mainFrame">异常单数量统计表</a>-->
+<!--                        </li>-->
+                        <li>
+                            <a href="/img6/" target="mainFrame">异常单数量及结案率</a>
+                        </li>
+                        <li>
+                            <a href="/img8/" target="mainFrame">责任单位对比图</a>
+                        </li>
+<!--                        <li>-->
+<!--                            <a href="/img9/" target="mainFrame">堆叠图尝试</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="/imh/" target="mainFrame">页面设计</a>-->
+<!--                        </li>-->
+
+<!--                        <li>-->
+<!--                            <a href="/imm/" target="mainFrame">尝试表格的轮播效果</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="/imn/" target="mainFrame">页面样式的设计</a>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a href="/imo/" target="mainFrame">龙卷风</a>-->
+<!--                        </li>-->
+<!--                            <li>-->
+<!--                                <a href="/imp/" target="mainFrame">复选条件尝试</a>-->
+<!--                            </li>-->
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="/img3/" target="mainFrame">模块3</a>
+                </li>
+
+                <li>
+                    <a href="javascript:;" target="mainFrame">模块4</a>
+                </li>
+                <li>
+                    <a href="javascript:;" target="mainFrame">模块5</a>
+                </li>
+                <li>
+                    <a href="javascript:;" target="mainFrame">模块6</a>
+                </li>
+                <li>
+                    <a href="javascript:;" target="mainFrame">模块7</a>
+                </li>
+                <li>
+                    <a href="javascript:;" target="mainFrame">模块8</a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"target="mianFrame">
+                        个人设置<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="javascript:;" target="mainFrame">修改密码</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" target="mainFrame">退出系统</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;" target="mainFrame">查看个人信息</a>
+                        </li>
+                    </ul>
+                </li>
+                <li role="presentation">
+                    <a href="javascript:;" target="mainFrame">权限设置</a>
+                </li>
+            </ul>
+        </div>
+        <div class="splitter"></div>
+        <div class="pageContent">
+            <iframe src="/home/" id="mainFrame" name="mainFrame" frameborder="0" width="100%" height="100%" ></iframe>
+        </div>
+    </div>
+
+
+     <script type="text/javascript">
+        $(".nav li").click(function() {
+        $(".active").removeClass('active');
+        $(this).addClass("active");
+     });
+<!--js使用点击添加active这个选择器，再通过css样式来进行控制,而你每次点击的li不一样的时候，active就会发生变化到对应的li上去-->
+     </script>
+    {% else %}
+    <h1>你尚未登录，只能访问公开内容！</h1>
+    {% endif %}
+{% endblock %}
+
+
+
+

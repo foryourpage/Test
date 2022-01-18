@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:HH="http://www.w3.org/1999/xhtml">
+  {% load static %}
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>{% block title %}base{% endblock %}</title>
+    <!-- Bootstrap -->
+    <link href="{% static 'bootstrap-3.4.1-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+<!--    <link href="{% static 'css/bootstrap-table.css' %}"rel="stylesheet">-->
+    <link href="{% static 'bootstrap-table-master/dist/bootstrap-table.css' %}"rel="stylesheet">
+    <link href="{% static 'bootstrap-table-master/dist/extensions/fixed-columns/bootstrap-table-fixed-columns.css'%}" rel="stylesheet" >
+    <link href="{% static 'bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/img2.css' %}">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{% static 'bootstrap-3.4.1-dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'bootstrap-table-master/dist/bootstrap-table.js'%}"></script>
+    <script src="{% static 'bootstrap-table-master/dist/extensions/fixed-columns/bootstrap-table-fixed-columns.js'%}"></script>
+<!--    <script src="{% static 'js/bootstrap-table.js'%}"></script>-->
+<!--    <script src="{% static 'js/bootstrap-table-zh-CN.js'%}"></script>-->
+    <script src="{% static 'bootstrap-table-master/dist/locale/bootstrap-table-zh-CN.js'%}"></script>
+    <script src="{% static 'js/echarts.min.js'%}"></script>
+    <script src="{% static 'bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js' %}" charset="UTF-8"></script>
+    <script src="{% static 'js/moment-with-locales.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap-datetimepicker.zh-CN.js'%}"></script>
+  </head>
+  <body>
+    <label>
+        <span>单号</span>
+        <input type="text" class="ex_num">
+    </label>
+    <label>
+        <span>料号</span>
+        <input type="text" class="lot">
+    </label>
+    <label>
+        <span>单位</span>
+        <input type="text" class="op_unit">
+    </label>
+    <p>
+        <label>
+            <span>开始日期</span>
+            <input type="datetime-local" class="startTime" placeholder="开始日期" >
+        </label>
+        <label>
+            <span>结束日期</span>
+            <input type="datetime-local" class="endTime" placeholder="结束日期" >
+        </label>
+    </p>
+
+
+    <div>
+    <form action="/upload/" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" style="width: 50%" name="file" id="filename">
+        <button class="btn btn-primary-outline radius size-S" type="submit">提交</button>
+    </form>
+    </div>
+
+    <div style="padding: 10px; " >
+        <table id="articles-table" data-toggle="table" class="table table-bordered text-nowrap"
+		data-fixed-columns="true" data-fixed-number="4" ></table>
+<!--        <table id="articles-table" data-toggle="table" class="table table-bordered table-striped"  ></table>-->
+<!--        table-striped为true时表格会出现隔行变色效果;data-toggle告诉扮演的是一个表格，官网的解释是，不用写js直接启用表格-->
+    </div>
+  </body>
+
+  <script>
+            var h = $(window).height() + 55;
+            var $articlesTable = $('#articles-table').bootstrapTable('destroy').bootstrapTable({
+                url: '/all_form/',
+                method: 'GET',
+                dataType: "json",
+                height:h,
+                uniqueId: 'id',      <!--每一行的唯一标识，一般为主键列-->
+                striped: false,   <!-- 是否显示行间隔颜色-->
+                cache: false,       <!--是否使用缓存，默认为true-->
+                sortName: 'id',
+                sortable: false,     <!--是否启用排序-->
+                sortOrder: 'desc',     <!--排序方式-->
+                sidePagination: "server",  <!--分页方式：client客户端分页，server服务端分页-->
+                undefinedText: '&#45;&#45;',     <!--cell没有值时显示-->
+                singleSelect: false,
+                toolbar: '#soft-toolbar',        <!--指定工具栏-->
+                search: false,            <!--是否显示搜索-->
+                searchOnEnterKey:false,
+                showColumns: true,       <!--是否显示所有的列-->
+                showRefresh: true,
+                strictSearch: true,
+                clickToSelect: true,       <!--是否启用点击选中行-->
+                pagination: true,     <!--是否显示分页-->
+                pageNumber: 1,      <!--初始化加载第1页，默认第1页-->
+                pageSize: 100,     <!--每页的记录行数-->
+                pageList: [5, 10, 20, 50, 100],     <!--可供选择的，每页需要显示的数据量-->
+                paginationPreText: "上一页",
+                paginationNextText: "下一页",
+                queryParamsType: "",
+                queryParams: function (params) {
+                    var temp = {
+                        'pageSize': params.pageSize,
+                        'pageNumber': params.pageNumber,
+                        'sortName': params.sortName,
+                        'sortOrder': params.sortOrder,
+                        'startTime':  new Date($('.startTime').val()).getTime(),
+                        'endTime': new Date($('.endTime').val()).getTime(),
+                        'ex_num':$('.ex_num').val(),
+                        'lot':$('.lot').val(),
+                        'op_unit':$('.op_unit').val()
+                    };
+                    return temp;
+                },
+                columns: [
+                    {
+                        checkbox: true    <!--第一列显示复选框-->
+                    }, {
+                        field: 'state',
+                        align: 'center',
+                        valign: 'middle',  <!--上下居中-->
+                        width:120,
+                        title: '状态',
+                    }, {
+                        field: 'time',
+                        title: '发起日期',
+                    }, {
+                        field: 'ex_num',
+                        title: '异常单号',
+                    },{
+                        field: 'lot',
+                        title: '料号',
+                    },{
+                        field: 'workshop',
+                        title: '发生车间',
+                    },{
+                        field: 'mrb_list',
+                        title: 'mrb单',
+                    },{
+                        field: 'or_list',
+                        title: '来源单号',
+                        cellStyle: formatTableUnit,
+                        formatter: paramsMatter,
+                    },{
+                        field: 'ex_type',
+                        title: '异常类型',
+                    },{
+                        field: 'ex_detail',
+                        title: '异常细项',
+                    },{
+                        field: 'ex_number',
+                        title: '不良数',
+                    },{
+                        field: 'op_head',
+                        title: '负责人',
+                    },{
+                        field: 'op_unit',
+                        title: '负责单位',
+                    },{
+                        field: 'client_type',
+                        title: '客户类型',
+                    },{
+                        field: 'client_name',
+                        title: '客户名称',
+                        cellStyle: formatTableUnit,
+                        formatter: paramsMatter,
+                    },{
+                        field: 'des',
+                        cellStyle: formatTableUnit,
+                        formatter: paramsMatter,
+                        title: 'D2问题描述',
+                        cellStyle: color,
+                    },{
+                        field: 'des_confirm',
+                        cellStyle: formatTableUnit,
+                        formatter: paramsMatter,
+                        title: 'D4原因描述',
+                        cellStyle: color2,
+                    },{
+                        field: 'improve',
+                        cellStyle: formatTableUnit,
+                        formatter: paramsMatter,
+                        title: 'D5永久改善对策',
+                        cellStyle: color3,
+                    },{
+                        field: 'effect_confirm',
+                        cellStyle: formatTableUnit,
+                        formatter: paramsMatter,
+                        title: 'D6效果确认',
+                        cellStyle: color4,
+                    },{
+                        field: 'op_dispose',
+                        title: '当前处理',
+                    },{
+                        title: '删除',
+                        formatter: function (value, row, index) {
+                              return `<a class="btn btn-primary btn-xs" onclick="deleteData(${row.id});">删除</a>`;
+                        },
+                    }
+                ],
+                onLoadError: function () {
+                    toastr.error("数据加载失败！", "错误提示");
+                },
+                onClickRow: function (row, $element) {
+                    //EditViewById(id, 'view');
+                }
+            });
+
+            function deleteData(id){
+                console.log(id);
+                $.ajax({
+                    cache: false,
+                    type: "POST",
+                    url: "/delete_test/",
+                    //traditional: true, //加上此项可以传数组
+                    dataType: 'json',
+                    data: {id},
+                    success: function (data) {
+                        if (data.ret) {
+                            toastr.success(data.msg, "成功提示！");
+                            $articlesTable.bootstrapTable("refresh");
+                        }
+                    }
+                });
+            }
+
+
+            function paramsMatter(value, row, index) {
+                var span = document.createElement("span");
+                span.setAttribute("title", value);
+                span.innerHTML = value;   <!--获取当前的值-->
+                return span.outerHTML;     <!--显示获取的值-->
+            }
+            //td宽度以及内容超过宽度隐藏
+            function formatTableUnit(value, row, index) {
+                return {
+                    css: {
+                        "white-space": "nowrap",
+                        "text-overflow": "ellipsis",
+                        "overflow": "hidden",
+                        "max-width": "100px",
+                    }
+                }
+            }
+            function color(value, row, index) {
+                var d1 = new Date()
+                var t1 = row.time
+                var d2 = t1.replace(/\-/g, "/")
+<!--            1./pattern/是正则表达式的界定符，里面的内容(pattern)是要匹配的内容，就是本例中的/\-/；-->
+<!--            2.\是转义的意思，\-代表的是-字符。-->
+<!--            3.JavaScript中应该是字符串的replace() 方法如果直接用str.replace(/\-/, '')只会替换第一个匹配的字符. 而str.replace(/\-/g, '')则可以替换掉全部匹配的字符（g为全局标志）。-->
+                var d2 = new Date(d2);
+                var drr =  Math.abs(d1-d2)
+                var day = parseInt(drr / (24 * 60 * 60 * 1000))
+                if(row.state == "放弃"){
+                        return {
+                         css: {
+                            "white-space": "nowrap",  <!--强制在同一行显示-->
+                            "text-overflow": "ellipsis",   <!-- 文字超出省略号代替-->
+                            "overflow": "hidden",    <!--溢出内容隐藏-->
+                            "max-width": "60px",
+
+                         }
+                      }
+                }
+                else if (row.des != "" || row.state == "结案" ){
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "green"
+                         }
+                    }
+                }
+                else{
+                      if (day < 2){
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "yellow"
+                         }
+                    }
+                }
+                else{
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "red"
+                         }
+                    }
+                }
+              }
+            }
+
+            function color2(value, row, index) {
+                var d1 = new Date()
+                var t1 = row.time
+                var d2 = t1.replace(/\-/g, "/")
+                var d2 = new Date(d2);
+                var drr =  Math.abs(d1-d2)
+                var day = parseInt(drr / (24 * 60 * 60 * 1000))
+                if(row.state == "放弃"){
+                        return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+
+                         }
+                      }
+                }
+                else if (row.des_confirm != "" || row.state == "结案" ){
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "green"
+                         }
+                    }
+                }
+
+                else{
+                      if (day < 7 ){
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "yellow"
+                         }
+                    }
+                }
+                else{
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "red"
+                         }
+                    }
+                }
+
+              }
+            }
+
+            function color3(value, row, index) {
+                var d1 = new Date()
+                var t1 = row.time
+                var d2 = t1.replace(/\-/g, "/")
+                var d2 = new Date(d2);
+                var drr =  Math.abs(d1-d2)
+                var day = parseInt(drr / (24 * 60 * 60 * 1000))
+                if(row.state == "放弃"){
+                        return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+
+                         }
+                      }
+                }
+                else if (row.improve != "" || row.state == "结案" ){
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "green"
+                         }
+                    }
+                }
+                else{
+                      if (day < 14){
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "yellow"
+                         }
+                    }
+                }
+                else{
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "red"
+                         }
+                    }
+                }
+              }
+            }
+
+            function color4(value, row, index) {
+                var d1 = new Date()
+                var t1 = row.time
+                var d2 = t1.replace(/\-/g, "/")
+                var d2 = new Date(d2);
+                var drr =  Math.abs(d1-d2)
+                var day = parseInt(drr / (24 * 60 * 60 * 1000))
+                if(row.state == "放弃"){
+                        return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                         }
+                      }
+                }
+                else if (row.effect_confirm != "" || row.state == "结案" ){
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "green"
+                         }
+                    }
+                }
+                else{
+                      if (day < 21){
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "yellow"
+                         }
+                    }
+                }
+                else{
+                    return {
+                         css: {
+                            "white-space": "nowrap",
+                            "text-overflow": "ellipsis",
+                            "overflow": "hidden",
+                            "max-width": "60px",
+                            "background-color": "red"
+                         }
+                    }
+                }
+              }
+            }
+
+
+
+ </script>
+</html>
