@@ -39,6 +39,11 @@
          </div>
      </div>
      <div>
+         <div id="main-second">
+             <div id="center-main-second"></div>
+         </div>
+     </div>
+     <div>
          <div id="bottom" >
              <div id="table"></div>
          </div>
@@ -54,6 +59,7 @@
         var myChart2 = echarts.init(chartDom2);
         var option2 ;
 
+<!--        异常类别占比图表-->
         var kv = new Array();
         kv = {{ data_dict|safe }};
         var test = new Array();
@@ -98,6 +104,7 @@
         };
         myChart.setOption(option);
 
+<!--        责任单位占比图表-->
         var kv2 = new Array();
         kv2 = {{ data_dict2|safe }};
         var test2 = new Array();
@@ -140,6 +147,7 @@
         };
         myChart2.setOption(option2)
 
+<!--        异常单数量图表-->
         var chartDom3 = document.getElementById('center-main');
         var myChart3 = echarts.init(chartDom3);
         var option3 ;
@@ -269,7 +277,7 @@
               {
                 type: 'value',
                 name: '数量'
-              }
+              },
             ],
            series: [     <!-- 这里是设置选择-->
               { name: '异常单数量', type: 'bar' },
@@ -278,10 +286,121 @@
           options: options
         };
 
-
         myChart3.setOption(option3);
 
+<!--        结案率占比图表-->
+        var chartDom5 = document.getElementById('center-main-second');
+        var myChart5 = echarts.init(chartDom5);
+        var option5 ;
 
+        var dataMap2 = {{data_dict5|safe}};
+        var dataMap = {};
+        dataMap.dataFinancial = dataMap2;
+        var myDate = new Date();
+        myDate = myDate.getFullYear();
+        year_list = [];
+        year_list2 = year_list.toString();
+        var series = [];
+        var title = [];
+        for (var year = 2019;year <= myDate;year++){
+            var str = "";
+            str +=  year + "年结案率";
+            year_list.push(year);
+            series.push({
+                data:dataMap.dataFinancial[year]
+            });
+            title.push({
+                text: str
+            });
+        }
+        var options = [];
+        for (var i = 0 ; i < year_list.length; i++) {
+            options.push({
+                title : title[i],
+                series: [series[i]]
+            });
+        };
+        console.log(options);
+
+        option5 = {
+          baseOption: {
+            timeline: {
+              axisType: 'category',
+              autoPlay: true,
+              playInterval: 2000,<!-- 表示播放的速度-->
+              data: year_list,
+            },
+            title: {
+              subtext: '数据来自异常单'
+            },
+            tooltip: {
+              trigger:'axis',
+				formatter: '{b0}({a0}): {c0}%'
+            },
+            legend: {
+              left: 'right',
+              data: [ '结案率'],
+              selected: {
+                结案率: true,
+              }
+            },
+            calculable: true,
+            grid: {
+              top: 80,
+              bottom: 100,
+              tooltip: {
+                trigger: 'axis',
+                axisPointer: {
+                  type: 'shadow',
+                  label: {
+                    show: true,
+                    formatter: function (params) {
+                      return params.value.replace('\n', '');
+                    }
+                  }
+                }
+              }
+            },
+            xAxis: [
+              {
+                type: 'category',
+                axisLabel: { interval: 0 },
+                data: [
+                  '一月',
+                  '二月',
+                  '三月',
+                  '四月',
+                  '五月',
+                  '六月',
+                  '七月',
+                  '八月',
+                  '九月',
+                  '十月',
+                  '十一月',
+                  '十二月',
+                ],
+                splitLine: { show: false }
+              }
+            ],
+            yAxis: [
+              {
+                type: 'value',
+                name: '结案率',
+                axisLabel: {
+                    formatter: '{value} %'
+                },
+              }
+            ],
+           series: [     <!-- 这里是设置选择-->
+              { name: '结案率', type: 'line' },
+            ]
+          },
+          options: options
+        };
+        myChart5.setOption(option5);
+
+
+<!--        责任单位已结未结图表-->
         var chartDom4 = document.getElementById('table')
         var myChart4 = echarts.init(chartDom4)
         var option4;

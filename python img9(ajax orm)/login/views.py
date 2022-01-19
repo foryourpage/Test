@@ -488,6 +488,7 @@ def img8(request):
         dict2 = {}
         test = models.Test.objects.filter(time__range=[startTime2, endTime2]).exclude(state="放弃").values_list('op_unit',
                                                                                                               flat=True).distinct()
+        # test = test.filter(op_unit__in=["晶體工程課", "生產製程維護課", "製造二部"])
         for i in range(len(test)):
             name_list2.append(test[i])
         for i in range(len(name_list2)):
@@ -616,11 +617,28 @@ def imk(request):
             models.Test.objects.filter(op_unit=name_list3[i]).exclude(
                 Q(state="结案") | Q(state="放弃")).count()
         )
-
     data_dict4 = {'name_list3': name_list3, 'number3': number3, 'number4': number4}
+
+    data_year2 = []
+    data_dict5 = {}
+    for i in range(2019, d1):
+        data_year2.append(i)
+    for i in range(len(data_year2)):
+        data_dict5[data_year2[i]] = []
+        for j in range(1, 13):
+            number5 = models.Test.objects.filter(time__year=data_year2[i], time__month=j, state="结案").count()
+            number6 = models.Test.objects.filter(time__year=data_year2[i], time__month=j).exclude(state="放弃").count()
+            if number6 == 0:
+                percentage3 = 0
+            else:
+                percentage3 = (number5 / number6) * 100
+                percentage3 = round(percentage3, 2)
+            data_dict5[data_year2[i]].append(percentage3)
+            # data_dict5[data_year2[i]].append('{}%'.format(percentage3))
     return render(request, 'login/imk.html', {'data_dict': json.dumps(data_dict), 'data_dict2': json.dumps(data_dict2),
                                               'data_dict3': json.dumps(data_dict3),
-                                              'data_dict4': json.dumps(data_dict4)})
+                                              'data_dict4': json.dumps(data_dict4),
+                                              'data_dict5': json.dumps(data_dict5)})
 
 
 def imm(request):

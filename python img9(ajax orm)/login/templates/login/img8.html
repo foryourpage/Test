@@ -24,8 +24,25 @@
         <script src="{% static 'js/bootstrap-table.js'%}"></script>
         <script src="{% static 'js/bootstrap-table-zh-CN.js'%}"></script>
         <script src="{% static 'js/echarts.min.js'%}"></script>
+        <style>
+            * {
+                padding:0px;
+                margin:0px;
+            }
+
+            .div_box {
+                width:500px;
+                padding:10px;
+                height:100px;
+                border:1px solid pink;
+                border-radius: 30px;
+                box-shadow:5px 5px 5px #795DA3;
+            }
+
+        </style>
  </head>
 <body>
+    <div>
     <label>
         <span>开始日期</span>
         <input type="datetime-local" class="startTime" placeholder="开始日期">
@@ -34,21 +51,26 @@
         <span>结束日期</span>
         <input type="datetime-local" class="endTime" placeholder="结束日期">
     </label>
+    </div>
+
+<!--    <div class="div_box">-->
+<!--        <input type="checkbox" value="晶體工程課">晶體工程課-->
+<!--        <input type="checkbox" value="生產製程維護課">生產製程維護課-->
+<!--        <input type="checkbox" value="製造二部">製造二部-->
+<!--    </div>-->
 
     <div>
-        <div>
+        <div style="padding:10px">
             <button id="submit-button" type="submit">查询</button>
         </div>
     </div>
     <div id="main" style="width:1000px; height:450px"></div>
 </body>
-
     <script>
+
     var chartDom = document.getElementById('main')
     var myChart = echarts.init(chartDom)
     var option;
-    let data1 = [1,2,3,4,5,6];
-    let data3 = [1,2,3,4,5,6];
 
     var emphasisStyle = {           <!--这个单词的意思是强调样式-->
       itemStyle: {

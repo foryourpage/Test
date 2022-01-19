@@ -4,6 +4,11 @@
     <list default="true" id="acebb833-9e60-42b2-85d5-b6f2d97e880d" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/templates/login/img8.html" beforeDir="false" afterPath="$PROJECT_DIR$/login/templates/login/img8.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/templates/login/imk.html" beforeDir="false" afterPath="$PROJECT_DIR$/login/templates/login/imk.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/templates/login/imq.html" beforeDir="false" afterPath="$PROJECT_DIR$/login/templates/login/imq.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/login/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/css/imk.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/imk.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,8 +36,8 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors" />
+    <property name="last_opened_file_path" value="D:/project/myblog" />
+    <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Mappings" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -47,7 +52,17 @@
     </task>
     <servers />
   </component>
+  <component name="VcsManagerConfiguration">
+    <ignored-roots>
+      <path value="$PROJECT_DIR$/Test" />
+      <path value="$PROJECT_DIR$/test2" />
+    </ignored-roots>
+  </component>
   <component name="WindowStateProjectService">
+    <state x="233" y="0" key="#Notifications" timestamp="1642551761466">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="233" y="0" key="#Notifications/0.0.1280.680@0.0.1280.680" timestamp="1642551761466" />
     <state x="221" y="56" key="DBNavigator.DatasetFilterDialog" timestamp="1637132276852">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -56,18 +71,18 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="171" y="0" key="DBNavigator.ProjectSettingsDialog/0.0.1280.680@0.0.1280.680" timestamp="1637132220568" />
-    <state x="421" y="95" key="FileChooserDialogImpl" timestamp="1641266081870">
+    <state x="421" y="95" key="FileChooserDialogImpl" timestamp="1642552019401">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1641266081870" />
-    <state x="163" y="0" key="SettingsEditor" timestamp="1641970016773">
+    <state x="421" y="95" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1642552019401" />
+    <state x="163" y="0" key="SettingsEditor" timestamp="1642551797241">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="163" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1641970016773" />
-    <state x="325" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1642471610020">
+    <state x="163" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1642551797241" />
+    <state x="325" y="165" key="com.intellij.ide.util.TipDialog" timestamp="1642636072556">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="325" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1642471610020" />
+    <state x="325" y="165" key="com.intellij.ide.util.TipDialog/0.0.1280.680@0.0.1280.680" timestamp="1642636072556" />
     <state x="434" y="0" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser" timestamp="1640565085873">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
