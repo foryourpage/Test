@@ -31,12 +31,11 @@
             }
 
             .div_box {
+                float:right;
                 width:500px;
-                padding:10px;
-                height:100px;
-                border:1px solid pink;
-                border-radius: 30px;
-                box-shadow:5px 5px 5px #795DA3;
+                margin-right:60px;
+                height:50px;
+                border:0px solid pink;
             }
 
         </style>
@@ -51,13 +50,14 @@
         <span>结束日期</span>
         <input type="datetime-local" class="endTime" placeholder="结束日期">
     </label>
+        <div class="div_box">
+            <input type="checkbox" name="test" value="晶體工程課" />晶體工程課
+            <input type="checkbox" name="test" value="生產製程維護課" />生產製程維護課
+            <input type="checkbox" name="test" value="製造二部" />製造二部
+        </div>
     </div>
 
-<!--    <div class="div_box">-->
-<!--        <input type="checkbox" value="晶體工程課">晶體工程課-->
-<!--        <input type="checkbox" value="生產製程維護課">生產製程維護課-->
-<!--        <input type="checkbox" value="製造二部">製造二部-->
-<!--    </div>-->
+
 
     <div>
         <div style="padding:10px">
@@ -140,36 +140,16 @@
        }
     };
 
-<!--      myChart.on('brushSelected', function (params) {            &lt;!&ndash;该方法的选择是为了能在右下角区域显示出数组的数据&ndash;&gt;-->
-<!--          var brushed = [];-->
-<!--          var brushComponent = params.batch[0];-->
-<!--          for (var sIdx = 0; sIdx < brushComponent.selected.length; sIdx++) {-->
-<!--            var rawIndices = brushComponent.selected[sIdx].dataIndex;-->
-<!--            brushed.push('[Series ' + sIdx + '] ' + rawIndices.join(', '));-->
-<!--          }-->
-<!--          myChart.setOption({-->
-<!--            title: {-->
-<!--              backgroundColor: '#333',-->
-<!--              text: 'SELECTED DATA INDICES: \n' + brushed.join('\n'),-->
-<!--              bottom: 0,-->
-<!--              right: '10%',-->
-<!--              width: 100,-->
-<!--              textStyle: {-->
-<!--                fontSize: 12,-->
-<!--                color: '#fff'-->
-<!--              }-->
-<!--            }-->
-<!--          });-->
-<!--        });-->
-
-
-
-
 
 <!--    myChart.setOption(option);-->
 
 
     $('#submit-button').click(function () {
+        var chk_value =[];
+        $('input[name="test"]:checked').each(function(){
+            chk_value.push($(this).val());
+        });
+        console.log(chk_value);
         $.ajax({
             type:"post",
             async:true,
@@ -177,12 +157,13 @@
             data:{
               'startTime':  new Date($('.startTime').val()).getTime(),
               'endTime': new Date($('.endTime').val()).getTime(),
+              'chk_value':JSON.stringify(chk_value),
             },
-            success: function(data){
-              if(data){
-                  option.xAxis.data = data.name_list2;
-                  option.series[0].data = data.number;
-                  option.series[1].data = data.number2;
+            success: function(data2){
+              if(data2){
+                  option.xAxis.data = data2.keys;
+                  option.series[0].data = data2.number3;
+                  option.series[1].data = data2.number4;
                   myChart.setOption(option);
               }
             }

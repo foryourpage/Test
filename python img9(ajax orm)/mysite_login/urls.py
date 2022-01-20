@@ -49,10 +49,12 @@ urlpatterns = [
     url(r'^imh', views.imh),
     url(r'^imj', views.imj),
     url(r'^imk', views.imk),
-    url(r'imm',  views.imm),
+    url(r'imm', views.imm),
     url(r'^imn', views.imn),
     url(r'^imo', views.imo),
     url(r'^imp', views.imp),
-    url(r'^imq', views.imq)
+    url(r'^imq', views.imq),
+    url(r'^imr', views.imr),
+    url(r'^ims', views.ims)
 
 ]

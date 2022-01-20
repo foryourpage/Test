@@ -457,6 +457,8 @@ def img7(request):
 @csrf_exempt
 def img8(request):
     if request.POST:
+        chk_value = request.POST.get('chk_value')
+        chk_value = json.loads(chk_value)
         startTime = request.POST['startTime']
         if len(startTime) == 12:
             startTime = '0' + startTime
@@ -479,16 +481,19 @@ def img8(request):
             endTime = int(endTime)
             endTime = datetime.fromtimestamp(endTime)
             endTime2 = endTime.strftime('%Y-%m-%d %H:%M:%S.%f')
-        print(startTime2)
-        print(endTime2)
         number = []
         number2 = []
         name_list2 = []
         # dict2 = defaultdict(list)
         dict2 = {}
-        test = models.Test.objects.filter(time__range=[startTime2, endTime2]).exclude(state="放弃").values_list('op_unit',
-                                                                                                              flat=True).distinct()
-        # test = test.filter(op_unit__in=["晶體工程課", "生產製程維護課", "製造二部"])
+        if len(chk_value):
+            test = models.Test.objects.filter(time__range=[startTime2, endTime2]).exclude(state="放弃").values_list(
+                'op_unit', flat=True).distinct()
+            test = test.filter(op_unit__in=chk_value)
+        else:
+            test = models.Test.objects.filter(time__range=[startTime2, endTime2]).exclude(state="放弃").values_list(
+                'op_unit', flat=True).distinct()
+
         for i in range(len(test)):
             name_list2.append(test[i])
         for i in range(len(name_list2)):
@@ -507,9 +512,20 @@ def img8(request):
             dict2[name_list2[i]] = []
             dict2[name_list2[i]].append(str(number[i]))
             dict2[name_list2[i]].append(str(number2[i]))
-        print(dict2)
         data = {'name_list2': name_list2, 'number': number, 'number2': number2}
-        return HttpResponse(json.dumps(data), content_type="application/json")  # HttpResponse需要对数据进行序列化
+        dict2 = sorted(dict2.items(), key=lambda item: (int(item[1][0]), int(item[1][1])), reverse=True)
+        dict2 = dict(dict2)
+        keys = dict2.keys()
+        keys = list(keys)
+        values = dict2.values()
+        values = list(values)
+        number3 = []
+        number4 = []
+        for i in range(len(values)):
+            number3.append(values[i][0])
+            number4.append(values[i][1])
+        data2 = {'keys': keys, 'number3': number3, 'number4': number4}
+        return HttpResponse(json.dumps(data2), content_type="application/json")  # HttpResponse需要对数据进行序列化
     return render(request, 'login/img8.html')
 
 
@@ -601,7 +617,6 @@ def imk(request):
         for j in range(1, 13):
             data_dict3[data_year[i]].append(
                 models.Test.objects.filter(time__year=data_year[i], time__month=j).exclude(state="放弃").count())
-    print(data_dict3)
 
     name_list3 = []
     number3 = []
@@ -659,3 +674,11 @@ def imp(request):
 
 def imq(request):
     return render(request, 'login/imq.html')
+
+
+def imr(request):
+    return render(request, 'login/imr.html')
+
+
+def ims(request):
+    return render(request, 'login/ims.html')
