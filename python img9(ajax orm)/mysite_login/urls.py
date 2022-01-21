@@ -55,6 +55,7 @@ urlpatterns = [
     url(r'^imp', views.imp),
     url(r'^imq', views.imq),
     url(r'^imr', views.imr),
-    url(r'^ims', views.ims)
+    url(r'^ims', views.ims),
+    url(r'^imt', views.imt)
 
 ]

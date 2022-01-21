@@ -514,6 +514,7 @@ def img8(request):
             dict2[name_list2[i]].append(str(number2[i]))
         data = {'name_list2': name_list2, 'number': number, 'number2': number2}
         dict2 = sorted(dict2.items(), key=lambda item: (int(item[1][0]), int(item[1][1])), reverse=True)
+        # 每个item里面有两个下标，零和一，我们取后面的，再按照下标取
         dict2 = dict(dict2)
         keys = dict2.keys()
         keys = list(keys)
@@ -682,3 +683,7 @@ def imr(request):
 
 def ims(request):
     return render(request, 'login/ims.html')
+
+
+def imt(request):
+    return render(request, 'login/imt.html')
