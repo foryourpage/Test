@@ -633,7 +633,23 @@ def imk(request):
             models.Test.objects.filter(op_unit=name_list3[i]).exclude(
                 Q(state="结案") | Q(state="放弃")).count()
         )
-    data_dict4 = {'name_list3': name_list3, 'number3': number3, 'number4': number4}
+    data_dict5 = {}
+    for i in range(len(name_list3)):
+        data_dict5[name_list3[i]] = []
+        data_dict5[name_list3[i]].append(number3[i])
+        data_dict5[name_list3[i]].append(number4[i])
+    data_dict5 = dict(sorted(data_dict5.items(), key=lambda item: (item[1][0], item[1][1]), reverse=True))
+    keys = list(data_dict5.keys())
+    values = list(data_dict5.values())
+    name_list4 = []
+    number5 = []
+    number6 = []
+    for i in range(len(keys)):
+        name_list4.append(keys[i])
+    for i in range(len(values)):
+        number5.append(values[i][0])
+        number6.append(values[i][1])
+    data_dict4 = {'name_list4': name_list4, 'number5': number5, 'number6': number6}
 
     data_year2 = []
     data_dict5 = {}

@@ -1,4 +1,26 @@
-.nav {
-    font-size:100px;
-    color:red;
+*{
+    margin:0px;
+    padding:0px;
+}
+
+ul {
+    list-style:none;
+
+}
+
+ul li {
+    padding:10px;
+    float:left;
+    font-weight:bold;
+
+}
+
+ul li a {
+    text-decoration:none;
+    color:black;
+    font-weight:black;
+}
+
+ul li a:hover {
+    text-decoration:underline;
 }
